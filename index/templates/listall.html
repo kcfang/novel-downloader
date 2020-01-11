@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+{% include "include.html" %}
+  <body>
+    {% include "nav.html" %}
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-4">
+        {% for novel in novels %}
+        <div class="col mb-4">
+          <div class="card" style="width: 14rem;">
+            <a href="/novel/book/{{novel.id}}">
+              <img src="{{novel.image}}" class="card-img-top" height="200" width="150">
+            </a>
+            <h5 class="card-title">{{novel.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{novel.author}}</h6>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% include "bottom.html" %}
+  </body>
+</html>

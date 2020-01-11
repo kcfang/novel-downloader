@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+{% include "include.html" %}
+{% load basename %}
+
+<script charset="utf-8">
+$(document).ready( function() {
+  $("#summit").click(function () {
+    $("#d2").css("display", "");
+    $("#summit").css('display', "none");
+    $("#error").css('display', "none");
+    $("#loading").css('display', "");
+  });
+
+});
+</script>
+
+  <body>
+    {% include "nav.html" %}
+    <div class="container">
+      <img src="{{book.image}}" height="300" width="240">
+      <h5 class="display-4">{{book.title}}</h5>
+      <p class="lead">{{book.author}}</p>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">txt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">mobi</a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="container">
+            {% for f in book.txt %}
+            <a href="{{f}}">{{ f | basename}}</a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="container">
+            {% for f in book.mobi %}
+            <a href="{{f}}">{{ f | basename}}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "bottom.html" %}
+  </body>
+</html>

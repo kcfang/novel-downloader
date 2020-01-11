@@ -1,0 +1,36 @@
+*** Starting uWSGI 2.0.17.1 (64bit) on [Tue Oct  2 07:38:52 2018] ***
+compiled with version: 6.3.0 20170516 on 02 October 2018 07:30:20
+os: Linux-4.17.17-x86_64-linode116 #1 SMP PREEMPT Mon Aug 20 16:07:40 UTC 2018
+nodename: 230c3c1d08df
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 33
+setuid() to 33
+chdir() to /Projects/novel
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on :8000 fd 3
+uwsgi socket 0 bound to UNIX address /Projects/novel/uwsgi.sock fd 6
+Python version: 3.7.0 (default, Sep  5 2018, 03:25:31)  [GCC 6.3.0 20170516]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55925f753b50
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 364600 bytes (356 KB) for 4 cores
+*** Operational MODE: preforking ***
+ModuleNotFoundError: No module named 'ck101toMobi.wsgi'
+unable to load app 0 (mountpoint='') (callable not found or import error)
+*** no app loaded. going in full dynamic mode ***
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 9)
+spawned uWSGI worker 1 (pid: 10, cores: 1)
+spawned uWSGI worker 2 (pid: 11, cores: 1)
+spawned uWSGI worker 3 (pid: 12, cores: 1)
+spawned uWSGI worker 4 (pid: 13, cores: 1)
+spawned uWSGI http 1 (pid: 14)

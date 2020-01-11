@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+{% include "include.html" %}
+<body>
+	{% include "nav.html" %}
+	<div class="container">
+		<div class="raw">
+			<form action="/novel/download" method="post"> {% csrf_token %}
+				<div class="col-xs-8">
+					<input id="url" type="text" name="url" class="form-control" placeholder="https://ck101.com/thread-2419719-1-1.html">
+				</div>
+				<button id="summit" onclick="document.getElementById('d1').style.display=''; document.getElementById('d2').style.display=''" type="submit" class="btn btn-default">送出</button>
+			</form>
+		<h3 id="d1">{% autoescape off %}{{ msg }}{% endautoescape %}</h3>
+		<div style="display:none;" id="d2" class="loader"></div>
+		</div>
+	</div>
+	{% include "bottom.html" %}
+</body>
+</html>

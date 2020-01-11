@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+{% include "include.html" %}
+
+<script charset="utf-8">
+$(document).ready( function() {
+  $("#summit").click(function () {
+    $("#d2").css("display", "");
+    $("#summit").css('display', "none");
+    $("#error").css('display', "none");
+    $("#loading").css('display', "");
+  });
+
+});
+</script>
+
+  <body>
+    {% include "nav.html" %}
+    <div class="container">
+      <form action="/novel/download" method="post"> {% csrf_token %}
+        <div class="row">
+          <div class="col">
+            <input id="url" type="text" name="url" class="form-control" placeholder="https://czbooks.net/n/ugnp3">
+          </div>
+          <div class="col-sm-2">
+            <button id="summit" type="submit" class="btn btn-light mb-2">送出</button>
+            <button class="btn btn-primary" type="button" id="loading", disabled style="display:none;">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span>Loading...</span>
+            </button>
+          </div>
+        </div>
+      </form>
+      <h5 id="d2" disabled style="display:none;">伺服器很慢... 若不幸當掉可以在所有小說找到...  </h5>
+      {% if msg %}
+      <h5 id="error">{{msg}}</h5>
+      {% endif %}
+    </div>
+    {% include "bottom.html" %}
+  </body>
+</html>
