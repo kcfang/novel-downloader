@@ -31,11 +31,13 @@ $(document).ready( function() {
           </div>
         </div>
       </form>
-      <h5 id="d2" disabled style="display:none;">伺服器很慢... 若不幸當掉可以在所有小說找到...  </h5>
+      <blockquote id="d2" style="display:none; padding-top: 10px;" class="blockquote text-center">
+        <p class="mb-0">伺服器很慢... 若不幸當掉可以在所有小說找到...</p>
+      </blockquote>
       {% if msg %}
       <h5 id="error">{{msg}}</h5>
       {% endif %}
     </div>
-    {% include "bottom.html" %}
   </body>
+  {% include "bottom.html" %}
 </html>

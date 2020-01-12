@@ -74,9 +74,9 @@ def main():
         return
 
     if args.all:
-        for info in glob.glob(settings.NOVEL_STATUS, '*.json'):
+        for info in glob.glob(os.path.join(settings.NOVEL_STATUS, '*.json')):
             with open(info, 'r') as fd:
-                url = json.load(info)['url']
+                url = json.load(fd)['url']
             generate_book(url)
         return
 

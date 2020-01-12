@@ -15,9 +15,9 @@ class MobiGenerator(Generator):
         super().__init__(info)
         self.work_dir = tempfile.mkdtemp(dir=os.getcwd())
 
-    # def __del__(self):
-    #     if os.path.isdir(self.work_dir):
-    #         shutil.rmtree(self.work_dir)
+    def __del__(self):
+        if os.path.isdir(self.work_dir):
+            shutil.rmtree(self.work_dir)
 
     def template(self, f):
         return os.path.join('template', f)

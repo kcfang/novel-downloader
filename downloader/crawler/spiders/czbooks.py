@@ -23,10 +23,17 @@ class CzbooksSpider(scrapy.Spider):
     def parse_homepage(self, response):
         self.logger.info("Processing homepage {}".format(response.request.url))
 
-        selector = 'body > div.header > div > ul.nav.menu > li > a::attr("href")'
+        # selector = 'body > div.header > div > ul.nav.menu > li > a::attr("href")'
+        # for category in response.css(selector):
+        #     url = 'https:' + category.extract() + '/total'
+        #     yield scrapy.Request(url, self.parse_category)
+
+        selector = ('body > div.main > div > ul:nth-child(1) > li > '
+                    'div.novel-item > div.novel-item-info-wrapper > '
+                    'div.novel-item-title > a::attr("href")')
         for category in response.css(selector):
-            url = 'https:' + category.extract() + '/total'
-            yield scrapy.Request(url, self.parse_category)
+            url = 'https:' + category.extract()
+            yield scrapy.Request(url, self.parse_novel)
 
     def parse_category(self, response):
         self.logger.info("Processing category {}".format(response.request.url))

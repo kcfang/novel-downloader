@@ -54,16 +54,22 @@ def get_novels(request, type):
     return render(request, 'listall.html', {'novels': novels})
 
 
+def glob_books(d):
+    files = [os.path.join(d, f) for f in os.listdir(d)]
+    files.sort(key=lambda x: os.path.getmtime(x))
+    files = [f.replace(settings.DOWNLOADER_DIR, "") for f in files]
+    return files
+
+
 def get_book(request, id):
     f = os.path.join(settings.NOVEL_INFO, '{}.json'.format(id))
     with open(f, 'r') as fd:
         j = json.load(fd)
 
     result_dir = j['result_dir']
-    txt = sorted(glob.glob(os.path.join(settings.DOWNLOADER_DIR, result_dir, 'txt', '*')))
-    txt = [f.replace(settings.DOWNLOADER_DIR, "") for f in txt]
-    mobi = sorted(glob.glob(os.path.join(settings.DOWNLOADER_DIR, result_dir, 'mobi', '*')))
-    mobi = [f.replace(settings.DOWNLOADER_DIR, "") for f in mobi]
+    d = os.path.join(settings.DOWNLOADER_DIR, result_dir)
+    txt = glob_books(os.path.join(d, 'txt'))
+    mobi = glob_books(os.path.join(d, 'mobi'))
 
     book = {
         'title': j['title'],
