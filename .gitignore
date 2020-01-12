@@ -2,4 +2,4 @@ venv
 **.pyc
 **.swp
 **__pycache__
-novel
+daemon.log
