@@ -127,6 +127,7 @@ USE_TZ = True
 
 DOWNLOADER_DIR = os.path.join(BASE_DIR, 'downloader')
 NOVEL_ROOT = os.path.join(BASE_DIR, 'downloader', 'novels')
+NOVEL_DIR = os.path.join(NOVEL_ROOT, 'workdir')
 NOVEL_INFO = os.path.join(NOVEL_ROOT, 'status')
 NOVEL_IMAGE = os.path.join(NOVEL_ROOT, 'images')
 NOVEL_STORE = os.path.join(NOVEL_ROOT, 'result')

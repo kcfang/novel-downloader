@@ -6,12 +6,13 @@ import scrapy
 import time
 from crawler.common import get_status_file, get_url_id
 from crawler.items import Chapter, NovelInfo
+from crawler import settings
 
 
 class CzbooksSpider(scrapy.Spider):
     name = 'czbooks'
-    allowed_domains = ['czbooks.net']
-    root = 'https://czbooks.net/'
+    allowed_domains = ['czbooks.cc']
+    root = 'https://czbooks.cc/'
 
     def start_requests(self):
         url = getattr(self, 'url', None)
@@ -28,12 +29,17 @@ class CzbooksSpider(scrapy.Spider):
         #     url = 'https:' + category.extract() + '/total'
         #     yield scrapy.Request(url, self.parse_category)
 
-        selector = ('body > div.main > div > ul:nth-child(1) > li > '
-                    'div.novel-item > div.novel-item-info-wrapper > '
-                    'div.novel-item-title > a::attr("href")')
-        for category in response.css(selector):
-            url = 'https:' + category.extract()
-            yield scrapy.Request(url, self.parse_novel)
+        # selector = ('body > div.main > div > ul:nth-child(1) > li > '
+        #             'div.novel-item > div.novel-item-info-wrapper > '
+        #             'div.novel-item-title > a::attr("href")')
+        # for category in response.css(selector):
+        #     url = 'https:' + category.extract()
+
+        for f in os.listdir(settings.NOVEL_STATUS):
+            with open(os.path.join(settings.NOVEL_STATUS, f), 'r') as fd:
+                url = json.load(fd).get('url')
+                if url:
+                    yield scrapy.Request(url, self.parse_novel)
 
     def parse_category(self, response):
         self.logger.info("Processing category {}".format(response.request.url))

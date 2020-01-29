@@ -18,9 +18,12 @@ $(document).ready( function() {
     {% include "nav.html" %}
     <div class="container">
       <form action="/novel/download" method="post"> {% csrf_token %}
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">資料來源：<a href="https://czbooks.cc/" target="_blank">小說狂人</a></p>
+        </blockquote>
         <div class="row">
           <div class="col">
-            <input id="url" type="text" name="url" class="form-control" placeholder="https://czbooks.net/n/ugnp3">
+            <input id="url" type="text" name="url" class="form-control" placeholder="https://czbooks.cc/n/ugnp3">
           </div>
           <div class="col-sm-2">
             <button id="summit" type="submit" class="btn btn-light mb-2">送出</button>

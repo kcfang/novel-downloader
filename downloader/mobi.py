@@ -100,7 +100,7 @@ class MobiGenerator(Generator):
         tocs = []
         shutil.copy(self.template("temp.css"), self.work_dir)
         book = self.get_file_path(targets)
-        title = self.info['title']
+        title = os.path.splitext(os.path.basename(book))[0]
 
         for f in targets:
             with open(self.join_path(f), 'r') as fd:

@@ -1,9 +1,6 @@
 from django.shortcuts import render
-from django.http import StreamingHttpResponse
 from django.conf import settings
-from django.template import loader, Context, Template
-from django.http import StreamingHttpResponse
-from django.views.decorators.http import condition
+from django.http import Http404
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 
@@ -76,11 +73,26 @@ def get_book(request, id):
         'author': j['author'],
         'id': get_id(j['url']),
         'image': settings.STATIC_URL + j['images'][0]['path'],
+        'chapters': range(0, j['last_index']),
         'txt': txt,
         'mobi': mobi,
     }
 
     return render(request, 'book.html', {'book': book})
+
+
+def get_online(request, id, chapter):
+    f = os.path.join(settings.NOVEL_DIR, id, chapter + '.json')
+    if not os.path.isfile(f):
+        return Http404('chapter not found')
+
+    with open(f, 'r') as fd:
+        book = json.load(fd)
+
+    book['id'] = id
+    book['priv'] = int(chapter)-1
+    book['next'] = int(chapter)+1
+    return render(request, 'view.html', {'book': book})
 
 
 def download(request):
@@ -93,8 +105,8 @@ def download(request):
     except ValidationError:
         return render(request, 'index.html', {'msg': '輸入錯誤!! 請重新輸入!!'})
 
-    if 'https://czbooks.net' not in url:
-        return render(request, 'index.html', {'msg': '輸入網站並不是屬於 <a href="https://czbooks.net">https://czbooks.net</a>'})
+    if 'https://czbooks.cc' not in url:
+        return render(request, 'index.html', {'msg': '輸入網站並不是屬於 <a href="https://czbooks.cc">https://czbooks.cc</a>'})
 
     with chdir(settings.DOWNLOADER_DIR):
         print(os.getcwd())

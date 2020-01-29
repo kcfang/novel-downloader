@@ -1,7 +1,7 @@
 novel-mobi:
+  build: .
   restart: always
-  image: mobi
   volumes:
-    - /Projects/novel:/Projects/novel
+    - .:/Projects/novel
   ports:
     - 9527:9527
