@@ -1,6 +1,6 @@
 beautifulsoup4
 requests
-django==1.9
+django==1.11.28
 uwsgi
 scrapy
 pillow
