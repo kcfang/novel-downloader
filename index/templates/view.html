@@ -5,7 +5,8 @@
 
 <style type="text/css" media="screen">
 .large {
-  font-size: 20px;
+  font-size: 22px;
+  color: #40bf40;
 }
 </style>
 
@@ -14,10 +15,10 @@ $(document).ready(function(){
   $(document).keydown(function(event){
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if(keycode == '39'){
-      $(location).attr('href', '/novel/online/{{book.id}}/{{book.next}}')
+      $(location).attr('href', '/novel/book/{{book.id}}/{{book.next}}')
     }
     if(keycode == '37'){
-      $(location).attr('href', '/novel/online/{{book.id}}/{{book.priv}}')
+      $(location).attr('href', '/novel/book/{{book.id}}/{{book.priv}}')
     }
   });
 });
@@ -29,18 +30,21 @@ $(document).ready(function(){
   <div class="container">
     <h4 style="padding-top:10px;">{{book.chapter}}</h4>
     {% for line in book.text %}
-    <p class="text-muted large">{{line}}</p>
+    <p class="text large">{{line}}</p>
     {% endfor %}
     <div class="row justify-content-between">
-      <div class="col-sm-2">            
+      <div class="col-sm-2">
         {% if book.priv < 0 %}
-        <a href="/novel/online/{{book.id}}/{{book.priv}}" type="button" class="disabled btn btn-block btn-secondary">(←) 上一話</a>
+        <a href="/novel/book/{{book.id}}/{{book.priv}}" type="button" class="disabled btn btn-block btn-secondary">(←) 上一話</a>
         {% else %}
-        <a href="/novel/online/{{book.id}}/{{book.priv}}" type="button" class="btn btn-block btn-secondary">(←) 上一話</a>
+        <a href="/novel/book/{{book.id}}/{{book.priv}}" type="button" class="btn btn-block btn-secondary">(←) 上一話</a>
         {% endif %}
       </div>
-      <div class="col-sm-2">            
-        <a href="/novel/online/{{book.id}}/{{book.next}}" id="next" type="button" class="btn btn-block btn-secondary">下一話 (→)</a>
+      <div class="col-sm-2">
+        <a href="/novel/book/{{book.id}}" id="next" type="button" class="btn btn-block btn-secondary">返回目錄</a>
+      </div>
+      <div class="col-sm-2">
+        <a href="/novel/book/{{book.id}}/{{book.next}}" id="next" type="button" class="btn btn-block btn-secondary">下一話 (→)</a>
       </div>
     </div>
   </div>

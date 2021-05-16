@@ -19,7 +19,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^novels/(.*)$', views.get_novels),
-    url(r'^online/(.*)/(\d*)$', views.get_online),
+    url(r'^book/(.*)/(\d*)$', views.get_online),
     url(r'^book/(.*)$', views.get_book),
     url(r'^download$', views.download),
 ]

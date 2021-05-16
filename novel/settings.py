@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kxmar1^i3+%m=gbgvn-+yzm^3ksl(^&fw)+u2gra6*w4n!p6@9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['gg.csie.org']
 

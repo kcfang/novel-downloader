@@ -31,6 +31,16 @@ def index(request):
 def get_id(url):
     return url.split("/")[-1]
 
+
+def get_image(info):
+    try:
+        image = settings.STATIC_URL + info['images'][0]['path']
+    except IndexError:
+        image = settings.STATIC_URL + 'full/default_no_thumbnail.jpg'
+
+    return image
+
+
 def load_info(f):
     with open(f, 'r') as fd:
         j = json.load(fd)
@@ -39,7 +49,7 @@ def load_info(f):
         'title': j['title'],
         'author': j['author'],
         'id': get_id(j['url']),
-        'image': settings.STATIC_URL + j['images'][0]['path']
+        'image': get_image(j)
     }
 
 
@@ -72,7 +82,7 @@ def get_book(request, id):
         'title': j['title'],
         'author': j['author'],
         'id': get_id(j['url']),
-        'image': settings.STATIC_URL + j['images'][0]['path'],
+        'image': get_image(j),
         'chapters': range(0, j['last_index']),
         'txt': txt,
         'mobi': mobi,
@@ -99,14 +109,13 @@ def download(request):
     novels = []
     url = request.POST.get('url')
     val = URLValidator()
-    print(url)
     try:
         val(url)
     except ValidationError:
         return render(request, 'index.html', {'msg': '輸入錯誤!! 請重新輸入!!'})
 
-    if 'https://czbooks.cc' not in url:
-        return render(request, 'index.html', {'msg': '輸入網站並不是屬於 <a href="https://czbooks.cc">https://czbooks.cc</a>'})
+    if 'https://czbooks.cc' not in url and 'https://czbooks.net' not in url:
+        return render(request, 'index.html', {'msg': '輸入網站並不是屬於 <a href="https://czbooks.xxx">https://czbooks.xxx</a>'})
 
     with chdir(settings.DOWNLOADER_DIR):
         print(os.getcwd())

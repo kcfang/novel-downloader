@@ -11,15 +11,17 @@ from crawler import settings
 
 class CzbooksSpider(scrapy.Spider):
     name = 'czbooks'
-    allowed_domains = ['czbooks.cc']
+    allowed_domains = ['czbooks.cc', 'czbooks.net']
     root = 'https://czbooks.cc/'
 
     def start_requests(self):
         url = getattr(self, 'url', None)
         if url:
-            yield scrapy.Request(url, self.parse_novel)
-        else:
-            yield scrapy.Request(self.root, self.parse_homepage)
+            if isinstance(url, list):
+                for u in url:
+                    yield scrapy.Request(u, self.parse_novel)
+            else:
+                yield scrapy.Request(url, self.parse_novel)
 
     def parse_homepage(self, response):
         self.logger.info("Processing homepage {}".format(response.request.url))
@@ -55,15 +57,15 @@ class CzbooksSpider(scrapy.Spider):
 
         last_status = self.load_status(response.request.url)
         if last_status:
-            last = last_status.get('last_index')
+            last = int(last_status.get('last_index'))
         else:
             title = response.css('span.title::text').get()
             author = response.css('span.author::text').get()
             image = response.css("div.thumbnail > img::attr('src')").get()
             yield NovelInfo(
                 url=response.request.url,
-                title=title,
-                author=author,
+                title=title.strip(),
+                author=author.strip(),
                 image_urls=[image],
             )
             last = -1
@@ -80,6 +82,9 @@ class CzbooksSpider(scrapy.Spider):
                 )
 
             index += 1
+
+        self.logger.info("Book {} ends with index: {}, last_index: {}".format(
+            response.request.url, index, last))
 
     def parse_page(self, response):
         self.logger.info("Processing chapter {}".format(response.request.url))

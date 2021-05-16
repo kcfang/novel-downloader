@@ -67,17 +67,23 @@ def run_crawler(url):
 def main():
     args = parse_args()
 
-    run_crawler(args.url)
-
     if args.url:
+        run_crawler(args.url)
         generate_book(args.url)
         return
 
     if args.all:
+        urls = []
         for info in glob.glob(os.path.join(settings.NOVEL_STATUS, '*.json')):
             with open(info, 'r') as fd:
                 url = json.load(fd)['url']
+            urls.append(url)
+
+        run_crawler(urls)
+
+        for url in urls:
             generate_book(url)
+
         return
 
 
