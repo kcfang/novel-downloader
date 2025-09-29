@@ -19,9 +19,9 @@ class CzbooksSpider(scrapy.Spider):
         if url:
             if isinstance(url, list):
                 for u in url:
-                    yield scrapy.Request(u, self.parse_novel)
+                    yield scrapy.Request(u, self.parse_novel, meta={"playwright": True})
             else:
-                yield scrapy.Request(url, self.parse_novel)
+                yield scrapy.Request(url, self.parse_novel, meta={"playwright": True})
 
     def parse_homepage(self, response):
         self.logger.info("Processing homepage {}".format(response.request.url))
@@ -41,7 +41,7 @@ class CzbooksSpider(scrapy.Spider):
             with open(os.path.join(settings.NOVEL_STATUS, f), 'r') as fd:
                 url = json.load(fd).get('url')
                 if url:
-                    yield scrapy.Request(url, self.parse_novel)
+                    yield scrapy.Request(url, self.parse_novel, meta={"playwright": True})
 
     def parse_category(self, response):
         self.logger.info("Processing category {}".format(response.request.url))
@@ -50,7 +50,7 @@ class CzbooksSpider(scrapy.Spider):
                     '> li> div > div.novel-item-cover-wrapper > a::attr("href")')
         for novel in response.css(selector):
             url = 'https:' + novel.extract()
-            yield scrapy.Request(url, self.parse_novel)
+            yield scrapy.Request(url, self.parse_novel, meta={"playwright": True})
 
     def parse_novel(self, response):
         self.logger.info("Processing novel {}".format(response.request.url))
@@ -78,13 +78,16 @@ class CzbooksSpider(scrapy.Spider):
                 yield scrapy.Request(
                     url,
                     self.parse_page,
-                    meta={'index': index, 'url': response.request.url},
+                    meta={
+                        'index': index,
+                        'url': response.request.url,
+                        "playwright": True
+                    },
                 )
 
             index += 1
 
-        self.logger.info("Book {} ends with index: {}, last_index: {}".format(
-            response.request.url, index, last))
+        self.logger.info("Book {} ends with index: {}, last_index: {}".format(response.request.url, index, last))
 
     def parse_page(self, response):
         self.logger.info("Processing chapter {}".format(response.request.url))
